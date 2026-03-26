@@ -1,7 +1,16 @@
 package main
 
-import "fmt"
+import (
+	"os"
+
+	"github.com/ysayonnar/zenvy/shared/logger"
+)
 
 func main() {
-	fmt.Println("Hello pipeline service")
+	log := logger.New(os.Stdout, true)
+
+	log.Debug("hi")
+	log.Info("hi")
+	log.Warn("hi")
+	log.Error("hi")
 }
