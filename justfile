@@ -10,7 +10,7 @@ pipeline_service_up_migrations:
     cd services/pipeline_service && goose up
 
 up:
-    docker compose -f {{ COMPOSE_FILE }} up --build -d
+    docker compose -f {{ COMPOSE_FILE }} -p zenvy up --build -d
 
 down:
-    docker compose -f {{ COMPOSE_FILE }} down
+    docker compose -f {{ COMPOSE_FILE }} -p zenvy down
