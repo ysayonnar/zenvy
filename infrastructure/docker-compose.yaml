@@ -1,0 +1,29 @@
+services:
+  pipeline-service:
+    build: ../services/pipeline_service
+    restart: always
+    ports:
+      - "5001:80" # TODO: remove hardcoded values
+    depends_on:
+      pipeline-service-postgres:
+        condition: service_healthy
+
+  pipeline-service-postgres:
+    image: postgres:alpine
+    environment:
+      POSTGRES_DB: ${PIPELINE_SERVICE_DB_NAME}
+      POSTGRES_USER: ${PIPELINE_SERVICE_DB_USER}
+      POSTGRES_PASSWORD: ${PIPELINE_SERVICE_DB_PASSWORD}
+    restart: always
+    ports:
+      - "5432:${PIPELINE_SERVICE_DB_PORT}"
+    volumes:
+      - pipeline_service_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${PIPELINE_SERVICE_DB_USER} -d ${PIPELINE_SERVICE_DB_NAME}" ]
+      interval: 3s
+      timeout: 3s
+      retries: 3
+
+volumes:
+  pipeline_service_postgres_data:
