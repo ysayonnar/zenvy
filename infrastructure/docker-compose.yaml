@@ -1,6 +1,8 @@
 services:
   pipeline-service:
-    build: ../services/pipeline_service
+    build:
+      context: ..
+      dockerfile: services/pipeline_service/Dockerfile
     restart: always
     ports:
       - "5001:80" # TODO: remove hardcoded values
