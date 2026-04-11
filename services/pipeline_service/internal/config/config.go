@@ -1,5 +1,7 @@
 package config
 
+import "fmt"
+
 type Config struct {
 	IsDebug bool `env:"IS_DEBUG"`
 	//Server   Server
@@ -22,4 +24,15 @@ type Postgres struct {
 	DbPassword string `env:"PIPELINE_SERVICE_DB_PASSWORD" env-required:"true"`
 	DbName     string `env:"PIPELINE_SERVICE_DB_NAME" env-required:"true"`
 	DbSslMode  string `env:"PIPELINE_SERVICE_DB_SSL_MODE" env-required:"true"`
+}
+
+func (cfg Postgres) DSN() string {
+	return fmt.Sprintf(
+		"host=%s port=%d user=%s password=%s dbname=%s sslmode=%s",
+		cfg.DbHost,
+		cfg.DbPort,
+		cfg.DbUser,
+		cfg.DbPassword,
+		cfg.DbName,
+		cfg.DbSslMode)
 }
